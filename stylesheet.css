@@ -3,8 +3,12 @@ body {
   font-family: Arial, Helvetica, sans-serif
 }
 
-#chart {
+#chartcontainer {
 background-color: white;
+left: 0px;
+position: absolute;
+top: 0px;
+
 }
 
 #title {
