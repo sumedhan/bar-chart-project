@@ -26,7 +26,11 @@ var options = {
   // bar formatting options
 
   "barspacing": "100px",
-  "barcolour": "blue"
+  "barcolour": "blue",
+
+  // X axis labels position
+  "xdataposition": "bottom", //options availble - top, bottom or center
+  "datalabelcolor": "green"
 
 };
 
@@ -63,6 +67,32 @@ var yAxis = function () {
   var yAxis = [yAxisLength, scale];
   return yAxis;
 }
+
+// creates X axis data
+function xDataDisplay(value, barId) {
+  var xData = $("<p></p>").text(value);
+    xData.attr("class","xaxisdata");
+   $(barId).append(xData);
+}
+
+// Position x axis data
+function xDataPosition() {
+  if(options.xdataposition === 'bottom') {
+    $(".xaxisdata").css( "bottom", "0");
+  }
+  if(options.xdataposition === 'center') {
+       $(".xaxisdata").css( "top","50%");
+  }
+
+}
+//creates and positions x axis labels
+function xAxisLabels(label, barId) {
+    var xLabel = $("<p></p>").text(label);
+    xLabel.attr("class","xaxislabels");
+   $(barId).append(xLabel);
+
+}
+
 
 
 //creates the bars according to the numbers provided in the range
@@ -102,6 +132,9 @@ function createBars() {
                 "left": xOffset
     });
 
+    // Call function to display data values for x axis
+    xDataDisplay(data[i],barId);
+    xAxisLabels(options.datalabels[i], barId);
   }
 
   // sets CSS formatting options for all bars
@@ -112,6 +145,13 @@ function createBars() {
               "padding": 0,
               "border": 0
   });
+
+  //positions x axis data
+  xDataPosition();
+
+  // formats the x labels in the color defined in options
+
+  $(".xaxislabels").css("color", options.datalabelcolor);
 }
 
 function drawBarChart(data, options, element) {
