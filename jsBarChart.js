@@ -10,8 +10,8 @@ var data = [150,20, 40];
 var options = {
 
   // Chart width, height and title
-  "chartwidth": "1200px",
-  "chartheight": "800px",
+  "chartwidth": "1000px",
+  "chartheight": "700px",
   "charttitle": "Favorite Comedy Series",
 
   // Data names in the same order as the values provided
@@ -25,12 +25,16 @@ var options = {
 
   // bar formatting options
 
-  "barspacing": "100px",
+  "barspacing": "50px",
   "barcolour": "blue",
 
-  // X axis labels position
-  "xdataposition": "bottom", //options availble - top, bottom or center
-  "datalabelcolor": "green"
+  // X axis labels
+  "xdataposition": "top", //options availble - top, bottom or center
+  "datalabelcolor": "green",
+
+  // Y axis ticks
+  "ymaxvalue": "200",
+  "yinterval": "10"
 
 };
 
@@ -56,17 +60,34 @@ function chartTitle() {
 // Creates chart area  and plot both the axes
 function createChartArea() {
   var chartArea = $("<div></div").attr("id", "chartarea");
+  var xTitle = $("<h3></h3").attr( {"id": "xtitle",
+                                    "class": "axistitle"})
+  xTitle.text(options.xaxistitle);
+  var yTitle = $("<h3></h3").attr( {"id": "ytitle",
+                                    "class": "axistitle"})
+  yTitle.text(options.yaxistitle);
+
   $("#chartcontainer").append(chartArea);
+  $("#chartarea").append(xTitle,yTitle);
+
 }
 
 //Returns an array that has the length of y axis in pixels and the scale that gives the number of pixels in each unit of y axis
 var yAxis = function () {
   var yAxisLength = Math.floor($("#chartarea").height());
-  var maxValue = Math.max( ...data );
+  var maxValue = parseInt(options.ymaxvalue);
+    if( maxValue < Math.max( ...data )){
+      maxValue = Math.max( ...data);
+    }
   var scale = yAxisLength / maxValue;
   var yAxis = [yAxisLength, scale];
   return yAxis;
 }
+
+function yAxisTicks () {
+
+}
+
 
 // creates X axis data
 function xDataDisplay(value, barId) {

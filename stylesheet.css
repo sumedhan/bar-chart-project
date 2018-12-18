@@ -20,11 +20,11 @@ top: 0px;
   border-color: black;
   border-style: none none solid solid;
   border-width: 2px;
-  height: 80%;
-  left: 10%;
+  height: 70%;
+  left: 15%;
   margin: 0;
-  position: relative;
-  width: 80%;
+  position: absolute;
+  width: 70%;
 }
 
 .xaxisdata, .xaxislabels {
@@ -41,4 +41,19 @@ top: 0px;
   top: 100%;
 }
 
+#xtitle {
+  left: 40%;
+  padding: 2px;
+  position: absolute;
+  top: 110%;
+}
+
+#ytitle {
+  left: -20%;
+  margin: 0;
+  padding: 2px;
+  position: absolute;
+  top:50%;
+  transform: rotate(-90deg);
+}
 
