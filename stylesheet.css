@@ -39,6 +39,7 @@ top: 0px;
 
 .xaxislabels {
   top: 100%;
+  padding: 5%;
 }
 
 #xtitle {

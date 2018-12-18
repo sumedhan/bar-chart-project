@@ -3,38 +3,42 @@
 // Chart Data. Customize below.
 
 // data for the chart
-var data = [150,20, 40];
+var data = [17, 11, 10, 5];
 
 
 // chart options below
 var options = {
 
-  // Chart width, height and title
-  "chartwidth": "1000px",
-  "chartheight": "700px",
-  "charttitle": "Favorite Comedy Series",
+  // Chart width, height
+  "chartwidth": "800px",
+  "chartheight": "600px",
+
+  // Chart title and font size
+  "charttitle": "Emmy Awards",
+  "titlefontsize": "20pt",
+  "titlefontcolor": "#48623E",
+
 
   // Data names in the same order as the values provided
-  "datalabels": ["The Office","30 Rock", "Parks and Recreation"],
+  "datalabels": ["Veep", "30 Rock", "Seinfeld", "The Office"],
 
 
   // Axes titles
-  "xaxistitle": "Series Names",
-  "yaxistitle": "No. of people",
+  "xaxistitle": "Shows",
+  "yaxistitle": "Awards won",
 
 
   // bar formatting options
 
   "barspacing": "50px",
-  "barcolour": "blue",
+  "barcolour": "#CE6241",
 
   // X axis labels
   "xdataposition": "top", //options availble - top, bottom or center
-  "datalabelcolor": "green",
+  "datalabelcolor": "#504F50",
 
   // Y axis ticks
-  "ymaxvalue": "200",
-  "yinterval": "10"
+  "yinterval": "5"
 
 };
 
@@ -55,6 +59,10 @@ function chartTitle() {
   var titletext = $("<h1></h1>").text(options.charttitle);
   titletext.attr("id", "title");
   $("#chartcontainer").append(titletext);
+  $("#title").css({
+                "font-size" : options.titlefontsize,
+                "color": options.titlefontcolor
+  });
 }
 
 // Creates chart area  and plot both the axes
@@ -67,25 +75,22 @@ function createChartArea() {
                                     "class": "axistitle"})
   yTitle.text(options.yaxistitle);
 
+
   $("#chartcontainer").append(chartArea);
   $("#chartarea").append(xTitle,yTitle);
 
 }
 
-//Returns an array that has the length of y axis in pixels and the scale that gives the number of pixels in each unit of y axis
+//Returns an array that has the length of y axis in pixels and the scale that gives the number of pixels in each unit of y axis, maxvalue
 var yAxis = function () {
   var yAxisLength = Math.floor($("#chartarea").height());
-  var maxValue = parseInt(options.ymaxvalue);
-    if( maxValue < Math.max( ...data )){
-      maxValue = Math.max( ...data);
-    }
+  var maxValue = Math.max( ...data) + parseInt(options.yinterval);
+
   var scale = yAxisLength / maxValue;
-  var yAxis = [yAxisLength, scale];
+  var yAxis = [yAxisLength, scale, maxValue];
+
+
   return yAxis;
-}
-
-function yAxisTicks () {
-
 }
 
 
@@ -182,6 +187,7 @@ function drawBarChart(data, options, element) {
     chartTitle();
     createChartArea();
     createBars();
+
   });
 
 }
