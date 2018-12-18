@@ -78,6 +78,7 @@ function createChartArea() {
 
   $("#chartcontainer").append(chartArea);
   $("#chartarea").append(xTitle,yTitle);
+  yAxisTicks();
 
 }
 
@@ -93,6 +94,28 @@ var yAxis = function () {
   return yAxis;
 }
 
+function yAxisTicks () {
+
+  var yMax = yAxis()[2];
+  var yInterval = parseInt(options.yinterval);
+  var yScale = yAxis()[1];
+  var numberOfTicks = yMax/yInterval;
+  var displayText = 0;
+  var topPosition = yMax * yScale;
+
+  for (var i = 0; i < numberOfTicks; i++) {
+    var yTick = $("<p></p").attr("class", "yticks");
+    yTick.text(displayText);
+    yTick.css({
+            "position": "absolute",
+            "top": topPosition
+    });
+    $("#chartarea").append(yTick);
+    displayText += yInterval;
+    topPosition -= (yInterval * yScale);
+  }
+
+}
 
 // creates X axis data
 function xDataDisplay(value, barId) {
