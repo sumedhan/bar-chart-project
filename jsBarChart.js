@@ -38,7 +38,10 @@ var options = {
   "datalabelcolor": "#504F50",
 
   // Y axis ticks
-  "yinterval": "5"
+  "yinterval": "5",
+
+  // Horizontal gridlines
+  "horizontalgrid": true
 
 };
 
@@ -105,12 +108,24 @@ function yAxisTicks () {
 
   for (var i = 0; i < numberOfTicks; i++) {
     var yTick = $("<p></p").attr("class", "yticks");
+
     yTick.text(displayText);
     yTick.css({
             "position": "absolute",
             "top": topPosition
     });
     $("#chartarea").append(yTick);
+
+    if(i !== 0 && options.horizontalgrid === true) {
+    var hGridlines = $("<div></div>").attr("class", "horizontalGridLines");
+    hGridlines.css({
+                "border-top": "2px solid #f1f1f1",
+                "position": "absolute",
+                "top": topPosition,
+                "width": Math.floor($("#chartarea").width())
+    });
+    $("#chartarea").append(hGridlines);
+    }
     displayText += yInterval;
     topPosition -= (yInterval * yScale);
   }
