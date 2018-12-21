@@ -1,12 +1,9 @@
-//drawBarChart(data, options, element)
-
-// Chart Data. Customize below.
+//The script draws a bar chart using the API - drawBarChart(data, options, element). To customize enter your data below -
 
 // data for the chart
 var data = [17, 11, 10, 5];
 
-
-// chart options below
+// Customisable chart options -
 var options = {
 
   // Chart width, height
@@ -18,18 +15,14 @@ var options = {
   "titlefontsize": "20pt",
   "titlefontcolor": "#48623E",
 
-
   // Data names in the same order as the values provided
   "datalabels": ["Veep", "30 Rock", "Seinfeld", "The Office"],
-
 
   // Axes titles
   "xaxistitle": "Shows",
   "yaxistitle": "Awards won",
 
-
-  // bar formatting options
-
+  // Bar spacing and colour options
   "barspacing": "50px",
   "barcolour": "#CE6241",
 
@@ -37,7 +30,7 @@ var options = {
   "xdataposition": "top", //options availble - top, bottom or center
   "datalabelcolor": "#504F50",
 
-  // Y axis ticks
+  // Y axis ticks interval in units.
   "yinterval": "5",
 
   // Horizontal gridlines
@@ -47,7 +40,7 @@ var options = {
 
 var element = 'body';
 
-
+// Script Functions below -
 
 //Sets the chart size
 function createChartContainer() {
@@ -77,8 +70,6 @@ function createChartArea() {
   var yTitle = $("<h3></h3").attr( {"id": "ytitle",
                                     "class": "axistitle"})
   yTitle.text(options.yaxistitle);
-
-
   $("#chartcontainer").append(chartArea);
   $("#chartarea").append(xTitle,yTitle);
   yAxisTicks();
@@ -89,11 +80,8 @@ function createChartArea() {
 var yAxis = function () {
   var yAxisLength = Math.floor($("#chartarea").height());
   var maxValue = Math.max( ...data) + parseInt(options.yinterval);
-
   var scale = yAxisLength / maxValue;
   var yAxis = [yAxisLength, scale, maxValue];
-
-
   return yAxis;
 }
 
@@ -136,32 +124,26 @@ function yAxisTicks () {
 function xDataDisplay(value, barId) {
   var xData = $("<p></p>").text(value);
     xData.attr("class","xaxisdata");
-   $(barId).append(xData);
-}
-
-// Position x axis data
-function xDataPosition() {
-  if(options.xdataposition === 'bottom') {
+    if(options.xdataposition === 'bottom') {
     $(".xaxisdata").css( "bottom", "0");
   }
   if(options.xdataposition === 'center') {
        $(".xaxisdata").css( "top","50%");
   }
-
+   $(barId).append(xData);
 }
+
 //creates and positions x axis labels
 function xAxisLabels(label, barId) {
     var xLabel = $("<p></p>").text(label);
     xLabel.attr("class","xaxislabels");
    $(barId).append(xLabel);
-
 }
 
 
 
 //creates the bars according to the numbers provided in the range
 function createBars() {
-
   // Calculating bar width given the spacing of the bars
   var numberOfBars = data.length;
   var xAxisLength = $("#chartarea").width();
@@ -205,9 +187,6 @@ function createBars() {
               "padding": 0,
               "border": 0
   });
-
-  //positions x axis data
-  xDataPosition();
 
   // formats the x labels in the color defined in options
 
