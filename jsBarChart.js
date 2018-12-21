@@ -187,12 +187,8 @@ function createBars() {
     //Calculate x offset from y axis
     var xOffset = (i * barWidth) + ((i + 1) * parseInt(options.barspacing));
 
-    //calculates offset from top for placeing the bar in the correct position
-    var topOffset = yAxis()[0] - barHeight;
-
     $(barId).css({
                 "position": "absolute",
-                "top": topOffset,
                 "left": xOffset
     });
 
