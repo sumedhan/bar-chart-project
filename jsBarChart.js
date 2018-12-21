@@ -140,7 +140,27 @@ function xAxisLabels(label, barId) {
    $(barId).append(xLabel);
 }
 
+function drawBar(idName, xOffset, barHeight, barWidth, barColour, barNumber) {
+  var bar = $("<div></div>").attr({
+                                  "class": "bar",
+                                  "id": idName
+                                    });
+    idName = "#" + idName;
+    $("#chartarea").append(bar);
+    $(idName).height(barHeight);
 
+
+
+    $(idName).css({
+                "background-color": barColour,
+                "position": "absolute",
+                "left": xOffset
+    });
+
+    // Call function to display data values and labels
+    xDataDisplay(data[barNumber],idName);
+    xAxisLabels(options.datalabels[barNumber], idName);
+}
 
 //creates the bars according to the numbers provided in the range
 function createBars() {
@@ -149,39 +169,22 @@ function createBars() {
   var xAxisLength = $("#chartarea").width();
   var barWidth = (xAxisLength - ((numberOfBars + 1) * parseInt(options.barspacing)))/numberOfBars;
   barWidth = Math.floor(barWidth);
-
-
   var yScale = yAxis()[1];
 
  //for loop that creates the bars for each of the data
   for (var i = 0; i < data.length; i++) {
-
+    console.log(i);
     var barId = "bar" + i;
     var barHeight = data[i] * yScale;
-    var bar = $("<div></div>").attr({
-                                  "class": "bar",
-                                  "id": barId
-                                    });
-    barId = "#" + barId;
-    $("#chartarea").append(bar);
-    $(barId).height(barHeight);
-
     //Calculate x offset from y axis
     var xOffset = (i * barWidth) + ((i + 1) * parseInt(options.barspacing));
+    var barColour = options.barcolour;
+    drawBar(barId, xOffset, barHeight, barWidth, barColour, i);
 
-    $(barId).css({
-                "position": "absolute",
-                "left": xOffset
-    });
-
-    // Call function to display data values for x axis
-    xDataDisplay(data[i],barId);
-    xAxisLabels(options.datalabels[i], barId);
   }
 
   // sets CSS formatting options for all bars
   $(".bar").css({
-              "background-color": options.barcolour,
               "width": barWidth,
               "margin": 0,
               "padding": 0,
