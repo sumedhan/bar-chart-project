@@ -1,14 +1,14 @@
 //The script draws a bar chart using the API - drawBarChart(data, options, element). To customize enter your data below -
 
 // data for the chart
-var data = [17, 11, 10, 5];
+var data = [[170],[ 100]];
 
 // Customisable chart options -
 var options = {
 
   // Chart width, height
-  "chartwidth": "800px",
-  "chartheight": "600px",
+  "chartwidth": "1200px",
+  "chartheight": "900px",
 
   // Chart title and font size
   "charttitle": "Emmy Awards",
@@ -16,22 +16,23 @@ var options = {
   "titlefontcolor": "#48623E",
 
   // Data names in the same order as the values provided
-  "datalabels": ["Veep", "30 Rock", "Seinfeld", "The Office"],
+  "datalabels": ["Veep", "30 Rock"],
 
   // Axes titles
-  "xaxistitle": "Shows",
-  "yaxistitle": "Awards won",
+  "xaxistitle": "Emmy Awards nominations and wins",
+  "yaxistitle": "Number of Awards ",
 
   // Bar spacing and colour options
   "barspacing": "50px",
-  "barcolour": "#CE6241",
+  "barcolour1": "#CE6241",
+  "barcolour2": "#AA9FB1",
 
   // X axis labels
   "xdataposition": "top", //options availble - top, bottom or center
   "datalabelcolor": "#504F50",
 
   // Y axis ticks interval in units.
-  "yinterval": "5",
+  "yinterval": "50",
 
   // Horizontal gridlines
   "horizontalgrid": true
@@ -71,15 +72,28 @@ function createChartArea() {
                                     "class": "axistitle"})
   yTitle.text(options.yaxistitle);
   $("#chartcontainer").append(chartArea);
-  $("#chartarea").append(xTitle,yTitle);
   yAxisTicks();
+  $("#chartarea").append(xTitle,yTitle);
 
 }
+// Returns an array that has the summed values for each bar of the graph
+var summedArray = function () {
+  var res = [];
+  for ( var i = 0; i < data.length; i++) {
+    var sum = 0;
+    for ( var j = 0; j < data[i].length; j++) {
+      sum += data[i][j];
+    }
+    res[i] = sum;
+  }
+  return res;
+}
+
 
 //Returns an array that has the length of y axis in pixels and the scale that gives the number of pixels in each unit of y axis, maxvalue
 var yAxis = function () {
   var yAxisLength = Math.floor($("#chartarea").height());
-  var maxValue = Math.max( ...data) + parseInt(options.yinterval);
+  var maxValue = Math.max( ...summedArray()) + parseInt(options.yinterval);
   var scale = yAxisLength / maxValue;
   var yAxis = [yAxisLength, scale, maxValue];
   return yAxis;
@@ -140,7 +154,7 @@ function xAxisLabels(label, barId) {
    $(barId).append(xLabel);
 }
 
-function drawBar(idName, xOffset, barHeight, barWidth, barColour, barNumber) {
+function drawBar(idName, xOffset, barHeight, barWidth, barColour, barNumber, stackNumber) {
   var bar = $("<div></div>").attr({
                                   "class": "bar",
                                   "id": idName
@@ -148,9 +162,6 @@ function drawBar(idName, xOffset, barHeight, barWidth, barColour, barNumber) {
     idName = "#" + idName;
     $("#chartarea").append(bar);
     $(idName).height(barHeight);
-
-
-
     $(idName).css({
                 "background-color": barColour,
                 "position": "absolute",
@@ -158,7 +169,7 @@ function drawBar(idName, xOffset, barHeight, barWidth, barColour, barNumber) {
     });
 
     // Call function to display data values and labels
-    xDataDisplay(data[barNumber],idName);
+    xDataDisplay(data[barNumber][stackNumber],idName);
     xAxisLabels(options.datalabels[barNumber], idName);
 }
 
@@ -170,17 +181,27 @@ function createBars() {
   var barWidth = (xAxisLength - ((numberOfBars + 1) * parseInt(options.barspacing)))/numberOfBars;
   barWidth = Math.floor(barWidth);
   var yScale = yAxis()[1];
+  var barHeight;
+  var barColour;
 
  //for loop that creates the bars for each of the data
   for (var i = 0; i < data.length; i++) {
-    console.log(i);
-    var barId = "bar" + i;
-    var barHeight = data[i] * yScale;
     //Calculate x offset from y axis
     var xOffset = (i * barWidth) + ((i + 1) * parseInt(options.barspacing));
-    var barColour = options.barcolour;
-    drawBar(barId, xOffset, barHeight, barWidth, barColour, i);
+    for ( var j = 0; j < data[i].length; j++) {
+    var barId = "bar" + i + j;
+    if (j === 0) {
+    barHeight = summedArray()[i] * yScale;
+    barColour = options.barcolour1;
+    }
+    else
+    {
+      barHeight = data[i][j] * yScale;
+      barColour = options.barcolour2;
+    }
+    drawBar(barId, xOffset, barHeight, barWidth, barColour, i, j);
 
+  }
   }
 
   // sets CSS formatting options for all bars

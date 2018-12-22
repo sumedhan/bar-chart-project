@@ -22,12 +22,12 @@ top: 0px;
   border-width: 2px;
   display: flex;
   flex-direction: column;
-  height: 70%;
+  height: 80%;
   justify-content: flex-end;
   left: 15%;
   margin: 0;
   position: absolute;
-  width: 70%;
+  width: 80%;
 }
 
 .xaxisdata, .xaxislabels {
@@ -46,15 +46,16 @@ top: 0px;
 }
 
 #xtitle {
-  left: 40%;
-  padding: 2px;
+  align-self: center;
+  margin: 2px;
+  padding: 5px;
   position: absolute;
-  top: 110%;
+  top: 105%;
 }
 
 #ytitle {
   left: -20%;
-  margin: 0;
+  margin: 2px;
   padding: 2px;
   position: absolute;
   top:50%;
