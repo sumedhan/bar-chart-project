@@ -1,7 +1,7 @@
 //The script draws a bar chart using the API - drawBarChart(data, options, element). To customize enter your data below -
 
 // data for the chart
-var data = [[170],[ 100]];
+var data = [[70,120,12],[ 100,24,50]];
 
 // Customisable chart options -
 var options = {
@@ -15,20 +15,22 @@ var options = {
   "titlefontsize": "20pt",
   "titlefontcolor": "#48623E",
 
-  // Data names in the same order as the values provided
+  // Data names in the same order as the values provided. Displayed at the x axis
   "datalabels": ["Veep", "30 Rock"],
 
   // Axes titles
   "xaxistitle": "Emmy Awards nominations and wins",
   "yaxistitle": "Number of Awards ",
 
-  // Bar spacing and colour options
+  // Bar spacing and colour options for bars. Multiple bar colours for stacked bar charts.
   "barspacing": "50px",
-  "barcolour1": "#CE6241",
-  "barcolour2": "#AA9FB1",
+  "barcolour": ["green","yellow","red"],
+
+  //for stacked bar charts please provide legend for the colours
+  "legend": ["Q1"],
 
   // X axis labels
-  "xdataposition": "top", //options availble - top, bottom or center
+  "xdataposition": "bottom", //options availble - top, bottom or center
   "datalabelcolor": "#504F50",
 
   // Y axis ticks interval in units.
@@ -47,8 +49,15 @@ var element = 'body';
 function createChartContainer() {
   var chartElement = $("<div></div>").attr("id", "chartcontainer");
   $(element).append(chartElement);
-  $("#chartcontainer").width(options.chartwidth);
-  $("#chartcontainer").height(options.chartheight);
+  $("#chartcontainer").css( {
+                      "background-color": "white",
+                      "height": options.chartheight,
+                      "left": "0px",
+                      "position": "absolute",
+                      "top": "0px",
+                      "width": options.chartwidth
+  });
+
 }
 
 //Sets the chart title
@@ -57,23 +66,83 @@ function chartTitle() {
   titletext.attr("id", "title");
   $("#chartcontainer").append(titletext);
   $("#title").css({
+                "color": options.titlefontcolor,
                 "font-size" : options.titlefontsize,
-                "color": options.titlefontcolor
+                "padding": "5px",
+                "text-align": "center"
   });
 }
 
 // Creates chart area  and plot both the axes
 function createChartArea() {
   var chartArea = $("<div></div").attr("id", "chartarea");
+
+  $("#chartcontainer").append(chartArea);
+  $("#chartarea").css( {
+                      "border-color": "black",
+                      "border-style": "none none solid solid",
+                      "border-width": "2px",
+                      "display": "flex",
+                      "flex-direction": "column",
+                      "height": "80%",
+                      "justify-content": "flex-end",
+                      "left": "15%",
+                      "margin": "0",
+                      "position": "absolute",
+                      "width": "80%"
+  });
+}
+
+//function displays axes titles
+function displayAxisTitles () {
   var xTitle = $("<h3></h3").attr( {"id": "xtitle",
-                                    "class": "axistitle"})
+                                    "class": "axistitle"});
   xTitle.text(options.xaxistitle);
   var yTitle = $("<h3></h3").attr( {"id": "ytitle",
-                                    "class": "axistitle"})
-  yTitle.text(options.yaxistitle);
-  $("#chartcontainer").append(chartArea);
-  yAxisTicks();
+                                    "class": "axistitle"});
+   yTitle.text(options.yaxistitle);
   $("#chartarea").append(xTitle,yTitle);
+
+  $("#xtitle").css({
+                  "align-self": "center",
+                  "margin": "2px",
+                  "padding": "5px",
+                  "position": "absolute",
+                  "top": "105%"
+                });
+
+$("#ytitle").css( {
+                  "left": "-20%",
+                  "margin": "2px",
+                  "padding": "2px",
+                  "position": "absolute",
+                  "top":"50%",
+                  "transform": "rotate(-90deg)"
+                });
+
+}
+
+// Creates legend for stacked bar charts
+function displayLegend () {
+  var legend = $("<div></div>").attr("id","legend");
+  $("#chartcontainer").append(legend);
+  var color1 = $("<div></div").attr({
+                                    "class": "colorbox",
+                                    "id": "color1"
+  })
+  $("#legend").append(color1);
+  $(".colorbox").css({
+    "background-color": options.barcolour[0],
+                    "width": "10px",
+                    "height": "10px",
+                    "float": "right",
+                   "margin": "20px",
+                   "padding": "20px"
+                 });
+  $("#color1").append($("<p></p>").text(options.legend));
+  $("p.colorbox").css({ "position": "absolute",
+  "left": "100%"});
+
 
 }
 // Returns an array that has the summed values for each bar of the graph
@@ -113,6 +182,9 @@ function yAxisTicks () {
 
     yTick.text(displayText);
     yTick.css({
+            "margin": "0",
+            "padding": "0",
+            "left": "-5%",
             "position": "absolute",
             "top": topPosition
     });
@@ -151,10 +223,10 @@ function xDataDisplay(value, barId) {
 function xAxisLabels(label, barId) {
     var xLabel = $("<p></p>").text(label);
     xLabel.attr("class","xaxislabels");
-   $(barId).append(xLabel);
+   $("#" + barId).append(xLabel);
 }
 
-function drawBar(idName, xOffset, barHeight, barWidth, barColour, barNumber, stackNumber) {
+function drawBar(idName, xOffset, barHeight, barWidth, barColour, barStartPosition,barNumber, stackNumber) {
   var bar = $("<div></div>").attr({
                                   "class": "bar",
                                   "id": idName
@@ -165,12 +237,12 @@ function drawBar(idName, xOffset, barHeight, barWidth, barColour, barNumber, sta
     $(idName).css({
                 "background-color": barColour,
                 "position": "absolute",
-                "left": xOffset
+                "left": xOffset,
+                "bottom": barStartPosition
     });
 
     // Call function to display data values and labels
     xDataDisplay(data[barNumber][stackNumber],idName);
-    xAxisLabels(options.datalabels[barNumber], idName);
 }
 
 //creates the bars according to the numbers provided in the range
@@ -183,28 +255,27 @@ function createBars() {
   var yScale = yAxis()[1];
   var barHeight;
   var barColour;
+  var barStartPosition;
 
  //for loop that creates the bars for each of the data
   for (var i = 0; i < data.length; i++) {
+    barStartPosition = 0;
     //Calculate x offset from y axis
     var xOffset = (i * barWidth) + ((i + 1) * parseInt(options.barspacing));
+    var barId = "bar" + i;
     for ( var j = 0; j < data[i].length; j++) {
-    var barId = "bar" + i + j;
-    if (j === 0) {
-    barHeight = summedArray()[i] * yScale;
-    barColour = options.barcolour1;
+    barId = barId + j;
+    barHeight = data[i][j] * yScale;
+    drawBar(barId, xOffset, barHeight, barWidth, options.barcolour[j], barStartPosition, i, j);
+    barStartPosition += barHeight;
+    if(j === 0) {
+      xAxisLabels(options.datalabels[i], barId);
     }
-    else
-    {
-      barHeight = data[i][j] * yScale;
-      barColour = options.barcolour2;
-    }
-    drawBar(barId, xOffset, barHeight, barWidth, barColour, i, j);
-
-  }
   }
 
-  // sets CSS formatting options for all bars
+  }
+
+  // sets CSS formatting options for all bars, data and labels
   $(".bar").css({
               "width": barWidth,
               "margin": 0,
@@ -213,8 +284,19 @@ function createBars() {
   });
 
   // formats the x labels in the color defined in options
+   $(".xaxislabels").css({"color": options.datalabelcolor,
+                            "top": "100%",
+                          "padding": "5%"
+    });
 
-  $(".xaxislabels").css("color", options.datalabelcolor);
+   $(".xaxislabels, .xaxisdata").css({ "border": "0",
+                                        "margin-bottom": "2%",
+                                        "margin-top": "2%",
+                                        "padding": "0",
+                                        "position": "absolute",
+                                        "text-align": "center",
+                                        "width": "100%"
+                                         })
 }
 
 function drawBarChart(data, options, element) {
@@ -223,8 +305,10 @@ function drawBarChart(data, options, element) {
     createChartContainer();
     chartTitle();
     createChartArea();
+    yAxisTicks();
+    displayAxisTitles();
     createBars();
-
+    displayLegend();
   });
 
 }
