@@ -1,7 +1,7 @@
 //The script draws a bar chart using the API - drawBarChart(data, options, element). To customize enter your data below -
 
 // data for the chart
-var data = [[70,120,12],[ 100,24,50]];
+var data = [[80,1200,12],[ 100,24,50]];
 
 // Customisable chart options -
 var options = {
@@ -27,14 +27,14 @@ var options = {
   "barcolour": ["green","yellow","red"],
 
   //for stacked bar charts please provide legend for the colours
-  "legend": ["Q1"],
+  "legend": ["Q1","Q2","Q3"],
 
   // X axis labels
   "xdataposition": "bottom", //options availble - top, bottom or center
   "datalabelcolor": "#504F50",
 
   // Y axis ticks interval in units.
-  "yinterval": "50",
+  "yinterval": "100",
 
   // Horizontal gridlines
   "horizontalgrid": true
@@ -126,22 +126,32 @@ $("#ytitle").css( {
 function displayLegend () {
   var legend = $("<div></div>").attr("id","legend");
   $("#chartcontainer").append(legend);
-  var color1 = $("<div></div").attr({
-                                    "class": "colorbox",
-                                    "id": "color1"
-  })
-  $("#legend").append(color1);
-  $(".colorbox").css({
-    "background-color": options.barcolour[0],
-                    "width": "10px",
-                    "height": "10px",
+  $("#legend").css({
                     "float": "right",
-                   "margin": "20px",
-                   "padding": "20px"
+                    "display": "flex",
+                    "justify-content": "space-around",
+                    "height": "20%",
+                    "width": "40%"
+  });
+
+  for ( var i = 0; i < options.legend.length; i++) {
+  var color = $("<div></div").attr({
+                                    "class": "colorbox",
+                                    "id": "color" + i
+                                    });
+  color.css("background-color", options.barcolour[i]);
+  $("#legend").append(color);
+  var legendName = ($("<div></div>").text(options.legend[i]));
+ legendName.attr("class","legendname");
+ $("#legend").append(legendName);
+  }
+
+  $(".colorbox, .legendname").css({
+                   "height": "10%",
+                  "width": "10%",
+                  "padding": "2%"
                  });
-  $("#color1").append($("<p></p>").text(options.legend));
-  $("p.colorbox").css({ "position": "absolute",
-  "left": "100%"});
+
 
 
 }
@@ -304,11 +314,12 @@ function drawBarChart(data, options, element) {
   $(document).ready(function(){
     createChartContainer();
     chartTitle();
+    displayLegend();
     createChartArea();
     yAxisTicks();
     displayAxisTitles();
     createBars();
-    displayLegend();
+
   });
 
 }
