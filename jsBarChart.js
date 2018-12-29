@@ -1,7 +1,7 @@
 //The script draws a bar chart using the API - drawBarChart(data, options, element). To customize enter your data below -
 
 // data for the chart
-var data = [[80,1200,12],[ 100,24,50]];
+var data = [[201], [125], [180], [138]];
 
 // Customisable chart options -
 var options = {
@@ -11,30 +11,31 @@ var options = {
   "chartheight": "900px",
 
   // Chart title and font size
-  "charttitle": "Emmy Awards",
+  "charttitle": "How many episodes?",
   "titlefontsize": "20pt",
-  "titlefontcolor": "#48623E",
+  "titlefontcolor": "#06070E",
 
   // Data names in the same order as the values provided. Displayed at the x axis
-  "datalabels": ["Veep", "30 Rock"],
+  "datalabels": ["The Office", "Parks and Rec", "Seinfeld", "30 Rock"],
 
   // Axes titles
-  "xaxistitle": "Emmy Awards nominations and wins",
-  "yaxistitle": "Number of Awards ",
+  "xaxistitle": "Series",
+  "yaxistitle": "Number of Episodes ",
 
   // Bar spacing and colour options for bars. Multiple bar colours for stacked bar charts.
   "barspacing": "50px",
-  "barcolour": ["green","yellow","red"],
+  "barcolour": ["#29524A"],
 
   //for stacked bar charts please provide legend for the colours
-  "legend": ["Q1","Q2","Q3"],
+  "legend": [],
 
   // X axis labels
-  "xdataposition": "bottom", //options availble - top, bottom or center
-  "datalabelcolor": "#504F50",
+  "xdataposition": "top", //options availble - top, bottom or center
+  "xdatacolour": "#2DC2BD",
+  "datalabelcolor": "#12664F",
 
   // Y axis ticks interval in units.
-  "yinterval": "100",
+  "yinterval": "50",
 
   // Horizontal gridlines
   "horizontalgrid": true
@@ -124,6 +125,7 @@ $("#ytitle").css( {
 
 // Creates legend for stacked bar charts
 function displayLegend () {
+  if ( data[0].length !== 0) {
   var legend = $("<div></div>").attr("id","legend");
   $("#chartcontainer").append(legend);
   $("#legend").css({
@@ -152,7 +154,7 @@ function displayLegend () {
                   "padding": "2%"
                  });
 
-
+}
 
 }
 // Returns an array that has the summed values for each bar of the graph
@@ -219,14 +221,15 @@ function yAxisTicks () {
 // creates X axis data
 function xDataDisplay(value, barId) {
   var xData = $("<p></p>").text(value);
-    xData.attr("class","xaxisdata");
-    if(options.xdataposition === 'bottom') {
+  xData.attr("class","xaxisdata");
+  $(barId).append(xData);
+  if(options.xdataposition === 'bottom') {
     $(".xaxisdata").css( "bottom", "0");
   }
   if(options.xdataposition === 'center') {
-       $(".xaxisdata").css( "top","50%");
+    $(".xaxisdata").css( "top","50%");
   }
-   $(barId).append(xData);
+  $(".xaxisdata").css("color",options.xdatacolour);
 }
 
 //creates and positions x axis labels
@@ -314,9 +317,8 @@ function drawBarChart(data, options, element) {
   $(document).ready(function(){
     createChartContainer();
     chartTitle();
-    if( data[1].length > 1) {
-      displayLegend();
-    }
+
+    displayLegend();
     createChartArea();
     yAxisTicks();
     displayAxisTitles();

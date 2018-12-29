@@ -4,6 +4,10 @@ This project utilizes vanilla JavaScript, CSS and JQuery to develop a bar chart 
 # Example Screenshots 
 
 ### Example 1 - Single Bar Chart
+
+![alt text](screenshots/barchart1.png "Single Bar Chart")
+
+
 List the API functions that you would expect a user to use
 Describe the function and the parameters to each function
 A Feature list of your library (options it supports, etc)
