@@ -314,7 +314,9 @@ function drawBarChart(data, options, element) {
   $(document).ready(function(){
     createChartContainer();
     chartTitle();
-    displayLegend();
+    if( data[1].length > 1) {
+      displayLegend();
+    }
     createChartArea();
     yAxisTicks();
     displayAxisTitles();
