@@ -1,5 +1,3 @@
-//The script draws a bar chart using the API - drawBarChart(data, options, element). To customize enter your data below -
-
 // data for the chart
 var data = [[200, 1000, 500, 100], [1200,300,400,100], [800,1200,230,700], [1008,200,400,123], [290,300,500,450], [170,322,304,400]];
 
@@ -7,8 +5,8 @@ var data = [[200, 1000, 500, 100], [1200,300,400,100], [800,1200,230,700], [1008
 var options = {
 
   // Chart width, height
-  "chartwidth": "1200px",
-  "chartheight": "900px",
+  "chartwidth": "800px",
+  "chartheight": "600px",
 
   // Chart title and font size
   "charttitle": "Sales in 2018",
@@ -23,7 +21,7 @@ var options = {
   "yaxistitle": "Sales in $ ",
 
   // Bar spacing and colour options for bars. Multiple bar colours for stacked bar charts.
-  "barspacing": "50px",
+  "barspacing": "20px",
   "barcolour": ["#9F956C","#CBBF7A","#F4E87C","#EBF38B"],
 
   //for stacked bar charts please provide legend for the colours
