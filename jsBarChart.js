@@ -1,7 +1,7 @@
 //The script draws a bar chart using the API - drawBarChart(data, options, element). To customize enter your data below -
 
 // data for the chart
-var data = [[201], [125], [180], [138]];
+var data = [[200, 1000, 500, 100], [1200,300,400,100], [800,1200,230,700], [1008,200,400,123], [290,300,500,450], [170,322,304,400]];
 
 // Customisable chart options -
 var options = {
@@ -11,31 +11,31 @@ var options = {
   "chartheight": "900px",
 
   // Chart title and font size
-  "charttitle": "How many episodes?",
+  "charttitle": "Sales in 2018",
   "titlefontsize": "20pt",
-  "titlefontcolor": "#06070E",
+  "titlefontcolor": "#1B1725",
 
   // Data names in the same order as the values provided. Displayed at the x axis
-  "datalabels": ["The Office", "Parks and Rec", "Seinfeld", "30 Rock"],
+  "datalabels": ["Product 1", "Product 2", "Product 3", "Product 4", "Product 5", "Product 6"],
 
   // Axes titles
-  "xaxistitle": "Series",
-  "yaxistitle": "Number of Episodes ",
+  "xaxistitle": "Products",
+  "yaxistitle": "Sales in $ ",
 
   // Bar spacing and colour options for bars. Multiple bar colours for stacked bar charts.
   "barspacing": "50px",
-  "barcolour": ["#29524A"],
+  "barcolour": ["#9F956C","#CBBF7A","#F4E87C","#EBF38B"],
 
   //for stacked bar charts please provide legend for the colours
-  "legend": [],
+  "legend": ["Q1","Q2","Q3","Q4"],
 
   // X axis labels
-  "xdataposition": "top", //options availble - top, bottom or center
-  "xdatacolour": "#2DC2BD",
-  "datalabelcolor": "#12664F",
+  "xdataposition": "bottom", //options availble - top, bottom or center
+  "xdatacolour": "#423E37",
+  "datalabelcolor": "#534B52",
 
   // Y axis ticks interval in units.
-  "yinterval": "50",
+  "yinterval": "500",
 
   // Horizontal gridlines
   "horizontalgrid": true
