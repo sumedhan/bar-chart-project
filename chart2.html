@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bar Chart Project</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script type="text/javascript" src = "jsBarChart.js"></script>
+  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+  <style type="text/css">
+    body {
+  font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  flex-direction: vertical;
+  justify-content: space-between;
+}
+  </style>
+</head>
+<body>
+  <div id = "chart1"> </div>
+  <p><a href = "index.html"> Back </a>
+</body>
+<script type="text/javascript">
+    // data for the chart
+  var data1 = [[200,100], [121,500], [700,240], [250,432], [424,353], [141,893],[232,375]];
+
+// Customisable chart options -
+var options1 = {
+  // Chart width, height
+  "chartwidth": "1000px",
+  "chartheight": "800px",
+  // Chart title and font size
+  "charttitle": "Daily Sales",
+  "titlefontsize": "15pt",
+  "titlefontcolor": "#1C77C3",
+  // Data names in the same order as the values provided. Displayed at the x axis
+  "datalabels": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+  // Axes titles
+  "xaxistitle": "Days",
+  "yaxistitle": "Sales",
+  // Bar spacing and colour options for bars. Multiple bar colours for stacked bar charts.
+  "barspacing": "20px",
+  "barcolour": ["#F39237","#D63230"],
+  // legend for stacked chart
+  "legend": ["Coffee", "Tea"],
+  "xdataposition": "center",
+  "xdatacolour": "#EAEBED",
+  "datalabelcolor": "#006989",
+
+  // Y interval in units
+  "yinterval": "200",
+  // horizontal grid lines
+  "horizontalgrid": false
+};
+
+var element1 = '#chart1';
+
+
+
+$(document).ready(function(){
+  drawBarChart(data1, options1, element1);
+});
+</script>
+</html>

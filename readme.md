@@ -88,11 +88,14 @@ A string value with the element name where the chart will be displayed.
 
 ### Known Issues / Bugs
 
-1. The bar charts may overlap the legend if the stacked bar chart is too high.
+1. Multiple bar charts on the same page overlap each other. Only one chart can be displayed on one page.
 
-2. If the interval is incorrectly selected, the image may be distorted.
+2. The bar charts may overlap the legend if the stacked bar chart is too high.
 
-3. Chart image is distorted for images less than 400 px by 300 px
+3. If the interval is incorrectly selected, the image may be distorted.
+
+4. Chart image is distorted for images less than 800 px by 600 px
+
 
 ### Future Roadmap
 
@@ -101,6 +104,8 @@ A string value with the element name where the chart will be displayed.
 2. More customizable features like chart background colour, title colour, different colours for each bar
 
 3. Auto selection of bar width and spacing to best suit the chart display.
+
+4. Validation of data entered and error messages.
 
 
 ### References used:

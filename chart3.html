@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bar Chart Project</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script type="text/javascript" src = "jsBarChart.js"></script>
+  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+  <style type="text/css">
+    body {
+  font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  flex-direction: vertical;
+  justify-content: space-between;
+}
+  </style>
+</head>
+<body>
+  <div id = "chart1"> </div>
+  <p><a href = "index.html"> Back </a>
+</body>
+<script type="text/javascript">
+   // data for the chart
+var data = [[200, 1000, 500, 100], [1200,300,400,100], [800,1200,230,700], [1008,200,400,123], [290,300,500,450], [170,322,304,400]];
+
+// Customisable chart options -
+var options = {
+
+  // Chart width, height
+  "chartwidth": "1200px",
+  "chartheight": "900px",
+
+  // Chart title and font size
+  "charttitle": "Sales in 2018",
+  "titlefontsize": "20pt",
+  "titlefontcolor": "#1B1725",
+
+  // Data names in the same order as the values provided. Displayed at the x axis
+  "datalabels": ["Product 1", "Product 2", "Product 3", "Product 4", "Product 5", "Product 6"],
+
+  // Axes titles
+  "xaxistitle": "Products",
+  "yaxistitle": "Sales in $ ",
+
+  // Bar spacing and colour options for bars. Multiple bar colours for stacked bar charts.
+  "barspacing": "20px",
+  "barcolour": ["#9F956C","#CBBF7A","#F4E87C","#EBF38B"],
+
+  //for stacked bar charts please provide legend for the colours
+  "legend": ["Q1","Q2","Q3","Q4"],
+
+  // X axis labels
+  "xdataposition": "bottom", //options availble - top, bottom or center
+  "xdatacolour": "#423E37",
+  "datalabelcolor": "#534B52",
+
+  // Y axis ticks interval in units.
+  "yinterval": "500",
+
+  // Horizontal gridlines
+  "horizontalgrid": true
+
+};
+
+var element = '#chart1';
+
+
+$(document).ready(function(){
+  drawBarChart(data, options, element);
+});
+</script>
+</html>

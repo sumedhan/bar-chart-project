@@ -1,3 +1,6 @@
+
+/* Sample Input -
+
 // data for the chart
 var data = [[200, 1000, 500, 100], [1200,300,400,100], [800,1200,230,700], [1008,200,400,123], [290,300,500,450], [170,322,304,400]];
 
@@ -42,10 +45,11 @@ var options = {
 
 var element = 'body';
 
+*/
 // Script Functions below -
 
 //Sets the chart size
-function createChartContainer() {
+function createChartContainer(options, element) {
   var chartElement = $("<div></div>").attr("id", "chartcontainer");
   $(element).append(chartElement);
   $("#chartcontainer").css( {
@@ -60,7 +64,7 @@ function createChartContainer() {
 }
 
 //Sets the chart title
-function chartTitle() {
+function chartTitle(options) {
   var titletext = $("<h1></h1>").text(options.charttitle);
   titletext.attr("id", "title");
   $("#chartcontainer").append(titletext);
@@ -93,7 +97,7 @@ function createChartArea() {
 }
 
 //function displays axes titles
-function displayAxisTitles () {
+function displayAxisTitles (options) {
   var xTitle = $("<h3></h3").attr( {"id": "xtitle",
                                     "class": "axistitle"});
   xTitle.text(options.xaxistitle);
@@ -107,7 +111,8 @@ function displayAxisTitles () {
                   "margin": "2px",
                   "padding": "5px",
                   "position": "absolute",
-                  "top": "105%"
+                  "top": "105%",
+                  "font-size": "medium"
                 });
 
 $("#ytitle").css( {
@@ -116,13 +121,14 @@ $("#ytitle").css( {
                   "padding": "2px",
                   "position": "absolute",
                   "top":"50%",
-                  "transform": "rotate(-90deg)"
+                  "transform": "rotate(-90deg)",
+                  "font-size": "medium"
                 });
 
 }
 
 // Creates legend for stacked bar charts
-function displayLegend () {
+function displayLegend (data, options) {
   if ( data[0].length !== 0) {
   var legend = $("<div></div>").attr("id","legend");
   $("#chartcontainer").append(legend);
@@ -156,7 +162,7 @@ function displayLegend () {
 
 }
 // Returns an array that has the summed values for each bar of the graph
-var summedArray = function () {
+var summedArray = function (data) {
   var res = [];
   for ( var i = 0; i < data.length; i++) {
     var sum = 0;
@@ -170,19 +176,20 @@ var summedArray = function () {
 
 
 //Returns an array that has the length of y axis in pixels and the scale that gives the number of pixels in each unit of y axis, maxvalue
-var yAxis = function () {
+var yAxis = function (data, options) {
   var yAxisLength = Math.floor($("#chartarea").height());
-  var maxValue = Math.max( ...summedArray()) + parseInt(options.yinterval);
+  var maxValue = Math.max( ...summedArray(data)) + parseInt(options.yinterval);
   var scale = yAxisLength / maxValue;
   var yAxis = [yAxisLength, scale, maxValue];
   return yAxis;
 }
 
-function yAxisTicks () {
+function yAxisTicks (data, options) {
 
-  var yMax = yAxis()[2];
+
   var yInterval = parseInt(options.yinterval);
-  var yScale = yAxis()[1];
+  var yMax = yAxis(data, options)[2];
+  var yScale = yAxis(data, options)[1];
   var numberOfTicks = yMax/yInterval;
   var displayText = 0;
   var topPosition = yMax * yScale;
@@ -196,7 +203,8 @@ function yAxisTicks () {
             "padding": "0",
             "left": "-5%",
             "position": "absolute",
-            "top": topPosition
+            "top": topPosition,
+            "font-size": "small"
     });
     $("#chartarea").append(yTick);
 
@@ -217,7 +225,7 @@ function yAxisTicks () {
 }
 
 // creates X axis data
-function xDataDisplay(value, barId) {
+function xDataDisplay(value, barId, options) {
   var xData = $("<p></p>").text(value);
   xData.attr("class","xaxisdata");
   $(barId).append(xData);
@@ -237,7 +245,7 @@ function xAxisLabels(label, barId) {
    $("#" + barId).append(xLabel);
 }
 
-function drawBar(idName, xOffset, barHeight, barWidth, barColour, barStartPosition,barNumber, stackNumber) {
+function drawBar(data, options, idName, xOffset, barHeight, barWidth, barColour, barStartPosition,barNumber, stackNumber) {
   var bar = $("<div></div>").attr({
                                   "class": "bar",
                                   "id": idName
@@ -253,17 +261,17 @@ function drawBar(idName, xOffset, barHeight, barWidth, barColour, barStartPositi
     });
 
     // Call function to display data values and labels
-    xDataDisplay(data[barNumber][stackNumber],idName);
+    xDataDisplay(data[barNumber][stackNumber],idName, options);
 }
 
 //creates the bars according to the numbers provided in the range
-function createBars() {
+function createBars(data, options) {
   // Calculating bar width given the spacing of the bars
   var numberOfBars = data.length;
   var xAxisLength = $("#chartarea").width();
   var barWidth = (xAxisLength - ((numberOfBars + 1) * parseInt(options.barspacing)))/numberOfBars;
   barWidth = Math.floor(barWidth);
-  var yScale = yAxis()[1];
+  var yScale = yAxis(data, options)[1];
   var barHeight;
   var barColour;
   var barStartPosition;
@@ -277,7 +285,7 @@ function createBars() {
     for ( var j = 0; j < data[i].length; j++) {
     barId = barId + j;
     barHeight = data[i][j] * yScale;
-    drawBar(barId, xOffset, barHeight, barWidth, options.barcolour[j], barStartPosition, i, j);
+    drawBar(data, options, barId, xOffset, barHeight, barWidth, options.barcolour[j], barStartPosition, i, j);
     barStartPosition += barHeight;
     if(j === 0) {
       xAxisLabels(options.datalabels[i], barId);
@@ -306,24 +314,23 @@ function createBars() {
                                         "padding": "0",
                                         "position": "absolute",
                                         "text-align": "center",
-                                        "width": "100%"
+                                        "width": "100%",
+                                        "font-size": "small"
                                          })
 }
 
 function drawBarChart(data, options, element) {
 
-  $(document).ready(function(){
-    createChartContainer();
-    chartTitle();
 
-    displayLegend();
+    createChartContainer(options, element);
+    chartTitle(options);
+    displayLegend(data, options);
     createChartArea();
-    yAxisTicks();
-    displayAxisTitles();
-    createBars();
+    yAxisTicks(data, options);
+    displayAxisTitles(options);
+    createBars(data, options);
+};
 
-  });
 
-}
 
 

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bar Chart Project</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script type="text/javascript" src = "jsBarChart.js"></script>
+  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+  <style type="text/css">
+    body {
+  font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  flex-direction: vertical;
+  justify-content: space-between;
+}
+  </style>
+</head>
+<body>
+  <div id = "chart1"> </div>
+  <p><a href = "index.html"> Back </a>
+</body>
+<script type="text/javascript">
+    // data for the chart
+  var data1 = [[20], [12], [7]];
+
+// Customisable chart options -
+var options1 = {
+  // Chart width, height
+  "chartwidth": "800px",
+  "chartheight": "600px",
+  // Chart title and font size
+  "charttitle": "Single Chart Title",
+  "titlefontsize": "15pt",
+  "titlefontcolor": "#0E0E52",
+  // Data names in the same order as the values provided. Displayed at the x axis
+  "datalabels": ["Data Label 1", "Data Label 2", "Data Label 3"],
+  // Axes titles
+  "xaxistitle": "X Axis Title",
+  "yaxistitle": "Y Axis Dummy Values",
+  // Bar spacing and colour options for bars. Multiple bar colours for stacked bar charts.
+  "barspacing": "20px",
+  "barcolour": ["#192BC2"],
+  // legend for stacked chart
+  "legend": [],
+  "xdataposition": "top",
+  "xdatacolour": "#449DD1",
+  "datalabelcolor": "#150578",
+
+  // Y interval in units
+  "yinterval": "5",
+  // horizontal grid lines
+  "horizontalgrid": false
+};
+
+var element1 = '#chart1';
+
+
+
+$(document).ready(function(){
+  drawBarChart(data1, options1, element1);
+});
+</script>
+</html>
